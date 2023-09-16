@@ -1,8 +1,9 @@
 package com.codesoom.assignment.adapter.in.web;
 
-import com.codesoom.assignment.adapter.out.persistence.ProductMapper;
+import com.codesoom.assignment.utils.ProductMapper;
 import com.codesoom.assignment.application.in.ProductUseCase;
 import com.codesoom.assignment.domain.Product;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -29,13 +30,13 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Product create(@RequestBody ProductCommand productCommand) {
-        return productUseCase.createProduct(ProductMapper.commandToDomain(productCommand));
+    public Product create(@RequestBody ProductDto productDto) {
+        return productUseCase.createProduct(ProductMapper.dtoToDomain(productDto));
     }
 
     @PatchMapping("{id}")
-    public Product patch(@PathVariable Long id, @RequestBody ProductCommand sourceCommand) {
-        return productUseCase.updateProduct(id, ProductMapper.commandToDomain(sourceCommand));
+    public Product patch(@PathVariable Long id, @RequestBody ProductDto source) {
+        return productUseCase.updateProduct(id, ProductMapper.dtoToDomain(source));
     }
 
     @DeleteMapping("{id}")

@@ -1,14 +1,11 @@
 package com.codesoom.assignment.application;
 
-import com.codesoom.assignment.ProductNotFoundException;
 import com.codesoom.assignment.application.in.ProductUseCase;
 import com.codesoom.assignment.application.out.ProductPort;
 import com.codesoom.assignment.domain.Product;
-import com.codesoom.assignment.adapter.out.persistence.ProductSpringDataRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service

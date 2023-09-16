@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductCommand {
-
+public class ProductDto {
+    
     private String name;
 
     private String maker;
@@ -18,5 +18,5 @@ public class ProductCommand {
     private Integer price;
 
     private String imageUrl;
-    
+
 }

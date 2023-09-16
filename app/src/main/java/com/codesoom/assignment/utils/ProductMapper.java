@@ -1,13 +1,14 @@
-package com.codesoom.assignment.adapter.out.persistence;
+package com.codesoom.assignment.utils;
 
-import com.codesoom.assignment.adapter.in.web.ProductCommand;
+import com.codesoom.assignment.adapter.in.web.ProductDto;
+import com.codesoom.assignment.adapter.out.persistence.ProductEntity;
 import com.codesoom.assignment.domain.Product;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProductMapper {
 
-    public static Product toDomain(ProductEntity productEntity) {
+    public static Product entityToDomain(ProductEntity productEntity) {
         return Product.builder()
                 .id(productEntity.getId())
                 .name(productEntity.getName())
@@ -17,7 +18,7 @@ public class ProductMapper {
                 .build();
     }
 
-    public static ProductEntity toEntity(Product product) {
+    public static ProductEntity domainToEntity(Product product) {
         return ProductEntity.builder()
                 .id(product.getId())
                 .name(product.getName())
@@ -27,12 +28,12 @@ public class ProductMapper {
                 .build();
     }
 
-    public static Product commandToDomain(ProductCommand productCommand) {
+    public static Product dtoToDomain(ProductDto productDto) {
         return Product.builder()
-                .name(productCommand.getName())
-                .maker(productCommand.getMaker())
-                .price(productCommand.getPrice())
-                .imageUrl(productCommand.getImageUrl())
+                .name(productDto.getName())
+                .maker(productDto.getMaker())
+                .price(productDto.getPrice())
+                .imageUrl(productDto.getImageUrl())
                 .build();
     }
 

@@ -1,8 +1,7 @@
 package com.codesoom.assignment.controller;
 
-import com.codesoom.assignment.ProductNotFoundException;
-import com.codesoom.assignment.adapter.in.web.ProductCommand;
-import com.codesoom.assignment.adapter.out.persistence.ProductMapper;
+import com.codesoom.assignment.exceptions.ProductNotFoundException;
+import com.codesoom.assignment.adapter.in.web.ProductDto;
 import com.codesoom.assignment.application.ProductService;
 import com.codesoom.assignment.domain.Product;
 import com.codesoom.assignment.adapter.in.web.ProductController;
@@ -43,7 +42,7 @@ class ProductControllerWebTest {
 
     private List<Product> products;
     private Product product;
-    private ProductCommand productCommand;
+    private ProductDto productCommand;
 
     private static final Long EXISTING_PRODUCT_ID = 1L;
     private static final Long NOT_EXISTING_PRODUCT_ID = 100L;
@@ -57,7 +56,7 @@ class ProductControllerWebTest {
     void setup() {
         products = new ArrayList<>();
 
-        productCommand = new ProductCommand(PRODUCT_NAME, PRODUCT_MAKER, PRODUCT_PRICE, PRODUCT_IMAGE_URL);
+        productCommand = new ProductDto(PRODUCT_NAME, PRODUCT_MAKER, PRODUCT_PRICE, PRODUCT_IMAGE_URL);
         product = new Product(EXISTING_PRODUCT_ID, PRODUCT_NAME, PRODUCT_MAKER, PRODUCT_PRICE, PRODUCT_IMAGE_URL);
     }
 
@@ -161,7 +160,7 @@ class ProductControllerWebTest {
     @Nested
     @DisplayName("PATCH /products/{id}")
     class Describe_patch_request {
-        private ProductCommand source;
+        private ProductDto source;
 
         @Nested
         @DisplayName("장난감을 찾을 수 있으면")
@@ -169,7 +168,7 @@ class ProductControllerWebTest {
 
             @BeforeEach
             void setup() {
-                source = new ProductCommand();
+                source = new ProductDto();
                 source.setName(NEW_PRODUCT_NAME);
                 product.setName(source.getName());
                 given(productService.updateProduct(eq(EXISTING_PRODUCT_ID), any(Product.class))).willReturn(product);
@@ -193,7 +192,7 @@ class ProductControllerWebTest {
 
             @BeforeEach
             void setup() {
-                source = new ProductCommand();
+                source = new ProductDto();
                 source.setName(NEW_PRODUCT_NAME);
                 given(productService.updateProduct(eq(NOT_EXISTING_PRODUCT_ID), any(Product.class)))
                         .willThrow(new ProductNotFoundException(NOT_EXISTING_PRODUCT_ID));
