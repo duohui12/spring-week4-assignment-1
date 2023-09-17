@@ -1,8 +1,8 @@
 package com.codesoom.assignment.application;
 
-import com.codesoom.assignment.exceptions.ProductNotFoundException;
 import com.codesoom.assignment.application.out.ProductPort;
 import com.codesoom.assignment.domain.Product;
+import com.codesoom.assignment.exceptions.ProductNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,11 +32,7 @@ class ProductServiceTest {
         productService = new ProductService(productPort);
 
         List<Product> products = new ArrayList<>();
-        Product product = new Product();
-        product.setName(PRODUCT_NAME);
-        product.setMaker(PRODUCT_MAKER);
-        product.setPrice(PRODUCT_PRICE);
-        product.setImageUrl(PRODUCT_IMAGE_URL);
+        Product product = new Product(1L, PRODUCT_NAME, PRODUCT_MAKER, PRODUCT_PRICE, PRODUCT_IMAGE_URL);
         products.add(product);
 
         given(productPort.findAll()).willReturn(products);
@@ -44,8 +40,10 @@ class ProductServiceTest {
         given(productPort.findById(100L)).willThrow(ProductNotFoundException.class);
     }
 
+
     @Test
     void getProducts() {
+        assertThat(productService.getProducts().size()).isNotEqualTo(0);
         assertThat(productService.getProducts()).isNotEmpty();
         assertThat(productService.getProducts()).hasSize(1);
     }
@@ -53,7 +51,6 @@ class ProductServiceTest {
     @Test
     void getProductWithExistingId() {
         Product product = productService.getProduct(1L);
-
         assertThat(product.getName()).isEqualTo(PRODUCT_NAME);
         assertThat(product.getMaker()).isEqualTo(PRODUCT_MAKER);
         assertThat(product.getPrice()).isEqualTo(PRODUCT_PRICE);
@@ -66,39 +63,38 @@ class ProductServiceTest {
     void getProductWithNotExistingId() {
         assertThatThrownBy(() -> productService.getProduct(100L))
                 .isInstanceOf(ProductNotFoundException.class);
+
+        verify(productPort).findById(100L);
     }
 
     @Test
     void createProduct() {
-        Product product = new Product();
-        product.setName(PRODUCT_NAME);
+        Product newProduct = new Product();
+        productService.createProduct(newProduct);
 
-        productService.createProduct(product);
-
-        verify(productPort).save(product);
+        verify(productPort).save(newProduct);
     }
 
     @Test
     void updateProductWithExistingId() {
         Product source = new Product();
-        source.setName("updated name");
+        source.setName("update product");
 
         given(productPort.save(any(Product.class))).willReturn(source);
         Product product = productService.updateProduct(1L, source);
 
+        assertThat(product.getName()).isEqualTo("update product");
         verify(productPort).findById(1L);
         verify(productPort).save(any(Product.class));
-        assertThat(product.getName()).isEqualTo("updated name");
     }
 
     @Test
     void updateProductWithNotExistingId() {
         Product source = new Product();
-        source.setName("updated name");
+        source.setName("update product");
 
         assertThatThrownBy(() -> productService.updateProduct(100L, source))
                 .isInstanceOf(ProductNotFoundException.class);
-
         verify(productPort).findById(100L);
     }
 
