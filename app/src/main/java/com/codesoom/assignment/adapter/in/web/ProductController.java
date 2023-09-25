@@ -1,9 +1,7 @@
 package com.codesoom.assignment.adapter.in.web;
 
-import com.codesoom.assignment.utils.ProductMapper;
-import com.codesoom.assignment.application.in.ProductUseCase;
+import com.codesoom.assignment.application.in.*;
 import com.codesoom.assignment.domain.Product;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,35 +12,43 @@ import java.util.List;
 @RequestMapping("/products")
 @CrossOrigin
 @RequiredArgsConstructor
-public class ProductController {
+class ProductController {
 
-    private final ProductUseCase productUseCase;
+    private final GetProductUseCase getProductUseCase;
+    private final GetProductListUseCase getProductListUseCase;
+    private final RegisterProductUseCase registerProductUseCase;
+    private final UpdateProductUseCase updateProductUseCase;
+    private final DeleteProductUseCase deleteProductUseCase;
 
     @GetMapping
-    public List<Product> list() {
-        return productUseCase.getProducts();
+    List<Product> list() {
+        return getProductListUseCase.getProducts();
     }
 
     @GetMapping("{id}")
-    public Product detail(@PathVariable Long id) {
-        return productUseCase.getProduct(id);
+    Product detail(@PathVariable Long id) {
+        return getProductUseCase.getProduct(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Product create(@RequestBody ProductDto productDto) {
-        return productUseCase.createProduct(ProductMapper.dtoToDomain(productDto));
+    Product create(@RequestBody RegisterProductWebData product) {
+        return registerProductUseCase.registerProduct(ProductMapper.registerDtoToDomain(product));
     }
 
     @PatchMapping("{id}")
-    public Product patch(@PathVariable Long id, @RequestBody ProductDto source) {
-        return productUseCase.updateProduct(id, ProductMapper.dtoToDomain(source));
+    Product patch(@PathVariable Long id, @RequestBody UpdateProductWebData source) {
+        return updateProductUseCase.updateProduct(id, ProductMapper.updateDtoToDomain(source));
     }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        productUseCase.deleteProduct(id);
+    void delete(@PathVariable Long id) {
+        deleteProductUseCase.deleteProduct(id);
     }
 
 }
+
+
+//private default protected public
+//

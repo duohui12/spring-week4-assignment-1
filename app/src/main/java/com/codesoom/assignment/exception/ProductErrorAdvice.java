@@ -1,6 +1,5 @@
-package com.codesoom.assignment.exceptions;
+package com.codesoom.assignment.exception;
 
-import com.codesoom.assignment.exceptions.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

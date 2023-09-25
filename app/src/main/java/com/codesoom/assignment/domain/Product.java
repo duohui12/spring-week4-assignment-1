@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,4 +24,10 @@ public class Product {
 
     private String imageUrl;
 
+    public void change(String name, String maker, Integer price, String imageUrl) {
+        if (name != null) this.name = name;
+        if (maker != null) this.maker = maker;
+        if (price != null) this.price = price;
+        if (imageUrl != null) this.imageUrl = imageUrl;
+    }
 }

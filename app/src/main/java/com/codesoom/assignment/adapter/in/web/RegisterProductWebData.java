@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductDto {
-    
+class RegisterProductWebData {
+
     private String name;
 
     private String maker;

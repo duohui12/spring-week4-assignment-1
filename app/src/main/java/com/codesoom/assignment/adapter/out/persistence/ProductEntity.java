@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductEntity {
+class ProductEntity {
 
     @Id
     @GeneratedValue
